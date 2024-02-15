@@ -56,22 +56,26 @@ class _MyHomePageState extends State<_MyHomePage> {
             dataLabelMapper: (_ChartData data, _) => data.amountLabel,
           )
         ]),
-        SfCircularChart(
-            tooltipBehavior: _tooltip,
-            series: <CircularSeries<_ChartData, String>>[
-              DoughnutSeries<_ChartData, String>(
-                dataSource: data,
-                xValueMapper: (_ChartData data, _) => data.category,
-                yValueMapper: (_ChartData data, _) => data.amount,
-                radius: '90%',
-                innerRadius: '98%',
-                dataLabelSettings: const DataLabelSettings(
-                  isVisible: true,
-                  color: Colors.amber,
-                ),
-                dataLabelMapper: (_ChartData data, _) => data.category,
-              )
-            ]),
+        SfCircularChart(annotations: const <CircularChartAnnotation>[
+          CircularChartAnnotation(
+            widget: Text('62K',
+                style: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 0.5), fontSize: 25)),
+          )
+        ], series: <CircularSeries<_ChartData, String>>[
+          DoughnutSeries<_ChartData, String>(
+            dataSource: data,
+            xValueMapper: (_ChartData data, _) => data.category,
+            yValueMapper: (_ChartData data, _) => data.amount,
+            radius: '90%',
+            innerRadius: '98%',
+            dataLabelSettings: const DataLabelSettings(
+              isVisible: true,
+              color: Colors.amber,
+            ),
+            dataLabelMapper: (_ChartData data, _) => data.category,
+          )
+        ]),
       ]),
     );
   }
@@ -82,5 +86,5 @@ class _ChartData {
 
   final String category;
   final double amount;
-  late String amountLabel = '${amount.toStringAsFixed(0)}k';
+  late String amountLabel = '${amount.toStringAsFixed(0)}K';
 }
