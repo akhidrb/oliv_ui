@@ -47,7 +47,6 @@ class _MyHomePageState extends State<_MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: Stack(children: [
         SfCircularChart(series: <CircularSeries<_ChartData, String>>[
           DoughnutSeries<_ChartData, String>(
