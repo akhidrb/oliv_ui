@@ -93,7 +93,8 @@ class _MyHomePageState extends State<_MyHomePage> {
             innerRadius: '98%',
             dataLabelSettings: const DataLabelSettings(
               isVisible: true,
-              color: Colors.amber,
+              labelIntersectAction: LabelIntersectAction.shift,
+              useSeriesColor: true,
             ),
             dataLabelMapper: (ExpenseModel data, _) => data.category,
           )

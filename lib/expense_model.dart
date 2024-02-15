@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 class ExpenseModel {
   final String category;
   final double amount;
