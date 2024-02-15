@@ -42,24 +42,45 @@ class _MyHomePageState extends State<_MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Syncfusion Flutter chart'),
-        ),
-        body: SfCircularChart(
+      appBar: AppBar(
+        title: const Text('Syncfusion Flutter chart'),
+      ),
+      body: Stack(children: [
+        SfCircularChart(series: <CircularSeries<_ChartData, String>>[
+          DoughnutSeries<_ChartData, String>(
+            dataSource: data,
+            xValueMapper: (_ChartData data, _) => data.category,
+            yValueMapper: (_ChartData data, _) => data.amount,
+            radius: '70%',
+            dataLabelSettings: const DataLabelSettings(isVisible: true),
+            dataLabelMapper: (_ChartData data, _) => data.amountLabel,
+          )
+        ]),
+        SfCircularChart(
             tooltipBehavior: _tooltip,
             series: <CircularSeries<_ChartData, String>>[
               DoughnutSeries<_ChartData, String>(
-                  dataSource: data,
-                  xValueMapper: (_ChartData data, _) => data.x,
-                  yValueMapper: (_ChartData data, _) => data.y,
-                  name: 'Gold')
-            ]));
+                dataSource: data,
+                xValueMapper: (_ChartData data, _) => data.category,
+                yValueMapper: (_ChartData data, _) => data.amount,
+                radius: '90%',
+                innerRadius: '98%',
+                dataLabelSettings: const DataLabelSettings(
+                  isVisible: true,
+                  color: Colors.amber,
+                ),
+                dataLabelMapper: (_ChartData data, _) => data.category,
+              )
+            ]),
+      ]),
+    );
   }
 }
 
 class _ChartData {
-  _ChartData(this.x, this.y);
+  _ChartData(this.category, this.amount);
 
-  final String x;
-  final double y;
+  final String category;
+  final double amount;
+  late String amountLabel = '${amount.toStringAsFixed(0)}k';
 }
