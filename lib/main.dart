@@ -44,7 +44,7 @@ class _MyHomePageState extends State<_MyHomePage> {
             dataSource: data,
             xValueMapper: (ExpenseModel data, _) => data.category,
             yValueMapper: (ExpenseModel data, _) => data.amount,
-            radius: '70%',
+            radius: '60%',
             dataLabelSettings: const DataLabelSettings(
               isVisible: true,
               textStyle: TextStyle(color: Colors.deepPurple),
@@ -95,6 +95,8 @@ class _MyHomePageState extends State<_MyHomePage> {
               isVisible: true,
               labelIntersectAction: LabelIntersectAction.shift,
               useSeriesColor: true,
+              connectorLineSettings: ConnectorLineSettings(
+                  length: '20%', type: ConnectorType.curve),
             ),
             dataLabelMapper: (ExpenseModel data, _) => data.category,
           )
