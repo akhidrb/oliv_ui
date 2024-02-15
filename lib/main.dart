@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:oliv_ui/expense_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+
+import 'expense_repo.dart';
 
 void main() {
   return runApp(ChartApp());
@@ -24,23 +27,11 @@ class _MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<_MyHomePage> {
-  late List<_ChartData> data;
-  late TooltipBehavior _tooltip;
+  late List<ExpenseModel> data;
 
   @override
   void initState() {
-    data = [
-      _ChartData('housing', 77),
-      _ChartData('travel', 70),
-      _ChartData('commute', 66),
-      _ChartData('kids', 20),
-      _ChartData('activities', 20),
-      _ChartData('outings', 12),
-      _ChartData('rent', 10),
-      _ChartData('home', 7),
-      _ChartData('other', 5),
-    ];
-    _tooltip = TooltipBehavior(enable: true);
+    data = ExpenseRepo.getExpenses();
     super.initState();
   }
 
@@ -48,52 +39,66 @@ class _MyHomePageState extends State<_MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: [
-        SfCircularChart(series: <CircularSeries<_ChartData, String>>[
-          DoughnutSeries<_ChartData, String>(
+        SfCircularChart(series: <CircularSeries<ExpenseModel, String>>[
+          DoughnutSeries<ExpenseModel, String>(
             dataSource: data,
-            xValueMapper: (_ChartData data, _) => data.category,
-            yValueMapper: (_ChartData data, _) => data.amount,
+            xValueMapper: (ExpenseModel data, _) => data.category,
+            yValueMapper: (ExpenseModel data, _) => data.amount,
             radius: '70%',
-            dataLabelSettings: const DataLabelSettings(isVisible: true,
-            textStyle: TextStyle(
-                color: Colors.deepPurple),
+            dataLabelSettings: const DataLabelSettings(
+              isVisible: true,
+              textStyle: TextStyle(color: Colors.deepPurple),
             ),
-            dataLabelMapper: (_ChartData data, _) => data.amountLabel,
+            dataLabelMapper: (ExpenseModel data, _) => data.amountLabel,
           )
         ]),
-        SfCircularChart(annotations: const <CircularChartAnnotation>[
+        SfCircularChart(annotations: <CircularChartAnnotation>[
           CircularChartAnnotation(
-            widget: Text(
-              '62K',
-              style: TextStyle(
-                  color: Colors.deepPurple,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25),
+            widget: SizedBox(
+              height: 100,
+              width: 65,
+              child: Column(children: [
+                const SizedBox(height: 20),
+                Container(
+                  height: 30,
+                  alignment: Alignment.centerLeft,
+                  child: const Text(
+                    'EGP',
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  height: 30,
+                  child: Text(
+                    ExpenseRepo.getTotalExpense().amountLabel!,
+                    style: const TextStyle(
+                        color: Colors.deepPurple,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25),
+                  ),
+                ),
+              ]),
             ),
           )
-        ], series: <CircularSeries<_ChartData, String>>[
-          DoughnutSeries<_ChartData, String>(
+        ], series: <CircularSeries<ExpenseModel, String>>[
+          DoughnutSeries<ExpenseModel, String>(
             dataSource: data,
-            xValueMapper: (_ChartData data, _) => data.category,
-            yValueMapper: (_ChartData data, _) => data.amount,
+            xValueMapper: (ExpenseModel data, _) => data.category,
+            yValueMapper: (ExpenseModel data, _) => data.amount,
             radius: '90%',
             innerRadius: '98%',
             dataLabelSettings: const DataLabelSettings(
               isVisible: true,
               color: Colors.amber,
             ),
-            dataLabelMapper: (_ChartData data, _) => data.category,
+            dataLabelMapper: (ExpenseModel data, _) => data.category,
           )
         ]),
       ]),
     );
   }
-}
-
-class _ChartData {
-  _ChartData(this.category, this.amount);
-
-  final String category;
-  final double amount;
-  late String amountLabel = '${amount.toStringAsFixed(0)}K';
 }
