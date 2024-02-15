@@ -30,10 +30,15 @@ class _MyHomePageState extends State<_MyHomePage> {
   @override
   void initState() {
     data = [
-      _ChartData('David', 25),
-      _ChartData('Steve', 38),
-      _ChartData('Jack', 34),
-      _ChartData('Others', 52)
+      _ChartData('housing', 77),
+      _ChartData('travel', 70),
+      _ChartData('commute', 66),
+      _ChartData('kids', 20),
+      _ChartData('activities', 20),
+      _ChartData('outings', 12),
+      _ChartData('rent', 10),
+      _ChartData('home', 7),
+      _ChartData('other', 5),
     ];
     _tooltip = TooltipBehavior(enable: true);
     super.initState();
@@ -42,9 +47,7 @@ class _MyHomePageState extends State<_MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Syncfusion Flutter chart'),
-      ),
+      appBar: AppBar(),
       body: Stack(children: [
         SfCircularChart(series: <CircularSeries<_ChartData, String>>[
           DoughnutSeries<_ChartData, String>(
