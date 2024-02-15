@@ -54,15 +54,22 @@ class _MyHomePageState extends State<_MyHomePage> {
             xValueMapper: (_ChartData data, _) => data.category,
             yValueMapper: (_ChartData data, _) => data.amount,
             radius: '70%',
-            dataLabelSettings: const DataLabelSettings(isVisible: true),
+            dataLabelSettings: const DataLabelSettings(isVisible: true,
+            textStyle: TextStyle(
+                color: Colors.deepPurple),
+            ),
             dataLabelMapper: (_ChartData data, _) => data.amountLabel,
           )
         ]),
         SfCircularChart(annotations: const <CircularChartAnnotation>[
           CircularChartAnnotation(
-            widget: Text('62K',
-                style: TextStyle(
-                    color: Color.fromRGBO(0, 0, 0, 0.5), fontSize: 25)),
+            widget: Text(
+              '62K',
+              style: TextStyle(
+                  color: Colors.deepPurple,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25),
+            ),
           )
         ], series: <CircularSeries<_ChartData, String>>[
           DoughnutSeries<_ChartData, String>(
