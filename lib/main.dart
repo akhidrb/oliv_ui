@@ -28,31 +28,20 @@ class _MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<_MyHomePage> {
   late List<ExpenseModel> data;
+  String tappedValue = '';
+  String totalExpenses = '';
 
   @override
   void initState() {
     data = ExpenseRepo.getExpenses();
+    totalExpenses = ExpenseRepo.getTotalExpense(data).amountLabel!;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(children: [
-        SfCircularChart(series: <CircularSeries<ExpenseModel, String>>[
-          DoughnutSeries<ExpenseModel, String>(
-            dataSource: data,
-            xValueMapper: (ExpenseModel data, _) => data.category,
-            yValueMapper: (ExpenseModel data, _) => data.amount,
-            radius: '60%',
-            dataLabelSettings: const DataLabelSettings(
-              isVisible: true,
-              textStyle: TextStyle(color: Colors.white),
-            ),
-            dataLabelMapper: (ExpenseModel data, _) => data.amountLabel,
-            selectionBehavior: SelectionBehavior(enable: true),
-          )
-        ]),
+      body: Stack(clipBehavior: Clip.none, children: [
         SfCircularChart(annotations: <CircularChartAnnotation>[
           CircularChartAnnotation(
             widget: SizedBox(
@@ -75,7 +64,7 @@ class _MyHomePageState extends State<_MyHomePage> {
                   alignment: Alignment.centerLeft,
                   height: 30,
                   child: Text(
-                    ExpenseRepo.getTotalExpense().amountLabel!,
+                    totalExpenses,
                     style: const TextStyle(
                         color: Colors.deepPurple,
                         fontWeight: FontWeight.bold,
@@ -102,6 +91,31 @@ class _MyHomePageState extends State<_MyHomePage> {
             dataLabelMapper: (ExpenseModel data, _) => data.category,
           )
         ]),
+        GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          child: SfCircularChart(series: <CircularSeries<ExpenseModel, String>>[
+            DoughnutSeries<ExpenseModel, String>(
+              onPointTap: (pointInteractionDetails) {
+                tappedValue = pointInteractionDetails
+                    .dataPoints![pointInteractionDetails.pointIndex!].x
+                    .toString();
+                setState(() {
+                  data = ExpenseRepo.getSubCategories(tappedValue);
+                  totalExpenses = ExpenseRepo.getTotalExpense(data).amountLabel!;
+                });
+              },
+              dataSource: data,
+              xValueMapper: (ExpenseModel data, _) => data.category,
+              yValueMapper: (ExpenseModel data, _) => data.amount,
+              radius: '60%',
+              dataLabelSettings: const DataLabelSettings(
+                isVisible: true,
+                textStyle: TextStyle(color: Colors.white),
+              ),
+              dataLabelMapper: (ExpenseModel data, _) => data.amountLabel,
+            )
+          ]),
+        ),
       ]),
     );
   }
