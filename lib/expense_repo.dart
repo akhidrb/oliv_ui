@@ -63,7 +63,7 @@ List<ExpenseModel> _expenses = [
   ExpenseModel('housing', 77050),
   ExpenseModel('commute', 66200),
   ExpenseModel('activities', 25100),
-  ExpenseModel('outings', 20000),
+  ExpenseModel('outings', 5000),
 ];
 
 List<ExpenseModel> _housing = [
@@ -86,7 +86,7 @@ List<ExpenseModel> _activities = [
 ];
 
 List<ExpenseModel> _outings = [
-  ExpenseModel('restaurants', 5000),
-  ExpenseModel('movies', 10000),
-  ExpenseModel('cafes', 5000),
+  ExpenseModel('restaurants', 2000),
+  ExpenseModel('movies', 2000),
+  ExpenseModel('cafes', 1000),
 ];
