@@ -4,23 +4,39 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 class ExpenseRepo {
   static List<ExpenseModel> getExpenses() {
-    return [
-      ExpenseModel('housing', 77050),
-      ExpenseModel('travel', 70500),
-      ExpenseModel('commute', 66200),
-      ExpenseModel('kids', 20301),
-      ExpenseModel('activities', 20100),
-      ExpenseModel('outings', 12000),
-      ExpenseModel('rent', 10000),
-      ExpenseModel('home', 7000),
-      ExpenseModel('other', 7000),
-    ];
+    final total = ExpenseRepo.getTotalExpense();
+    List<ExpenseModel> expList = _expenses;
+    ExpenseModel other = ExpenseModel('other', 0);
+    var toRemove = [];
+
+    for (var e in _expenses) {
+      if (e.amount < total.amount * 0.05) {
+        other.amount += e.amount;
+        toRemove.add(e);
+      }
+    }
+    expList.removeWhere((element) => toRemove.contains(element));
+    if (other.amount > 0) {
+      expList.add(other);
+    }
+    return expList;
   }
 
   static ExpenseModel getTotalExpense() {
     double sum = 0;
-    getExpenses().forEach((e){sum += e.amount;});
+    for (var e in _expenses) {sum += e.amount;}
     return ExpenseModel('Total', sum);
   }
 
 }
+
+List<ExpenseModel> _expenses = [
+  ExpenseModel('housing', 77050),
+  ExpenseModel('travel', 70500),
+  ExpenseModel('commute', 66200),
+  ExpenseModel('kids', 20301),
+  ExpenseModel('activities', 25100),
+  ExpenseModel('outings', 20000),
+  ExpenseModel('rent', 13000),
+  ExpenseModel('home', 7000),
+];

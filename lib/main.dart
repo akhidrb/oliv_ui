@@ -47,9 +47,10 @@ class _MyHomePageState extends State<_MyHomePage> {
             radius: '60%',
             dataLabelSettings: const DataLabelSettings(
               isVisible: true,
-              textStyle: TextStyle(color: Colors.deepPurple),
+              textStyle: TextStyle(color: Colors.white),
             ),
             dataLabelMapper: (ExpenseModel data, _) => data.amountLabel,
+            selectionBehavior: SelectionBehavior(enable: true),
           )
         ]),
         SfCircularChart(annotations: <CircularChartAnnotation>[
